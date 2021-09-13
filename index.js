@@ -8,7 +8,7 @@ type Todo {
 }
 
 type Query {
-    todos: [Todo]
+    todos(complete: Boolean): [Todo]
 }
 
 input TodoInput {
@@ -19,6 +19,7 @@ input TodoInput {
 type Mutation {
     addTodo(input: TodoInput!): Todo
     updateTodo(id: ID!, input: TodoInput!): Todo
+    deleteTodo(id: ID!): ID
 }
 `;
 
@@ -43,7 +44,12 @@ const todos = [
 
 const resolvers = {
     Query: {
-        todos: () => todos,
+        todos: (_, { complete }) => {
+            if (complete == null) {
+                return todos;
+            }
+            return todos.filter(x => x.complete === complete);
+        },
     },
     Mutation: {
         addTodo: (_, { input }) => {
@@ -60,6 +66,14 @@ const resolvers = {
             const updatedTodo = { ...todo, ...input };
             todos.splice(index, 1, updatedTodo);
             return updatedTodo;
+        },
+        deleteTodo: (_, { id }) => {
+            const index = todos.findIndex(x => x.id === id);
+            if (index < 0) {
+                throw new UserInputError(`Could not find todo with id: ${id}`);
+            }
+            todos.splice(index, 1);
+            return id;
         },
     },
 };
