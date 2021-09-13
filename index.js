@@ -20,6 +20,7 @@ type Mutation {
     addTodo(input: TodoInput!): Todo
     updateTodo(id: ID!, input: TodoInput!): Todo
     deleteTodo(id: ID!): ID
+    clearCompleted: [ID]
 }
 `;
 
@@ -29,7 +30,7 @@ const id = () => {
     return String(i);
 };
 
-const todos = [
+let todos = [
     {
         id: id(),
         text: 'one',
@@ -74,6 +75,17 @@ const resolvers = {
             }
             todos.splice(index, 1);
             return id;
+        },
+        clearCompleted: () => {
+            const ids = [];
+            todos = todos.filter(x => {
+                if (x.complete) {
+                    ids.push(x.id);
+                    return false;
+                }
+                return true;
+            });
+            return ids;
         },
     },
 };
