@@ -1,0 +1,24 @@
+{
+  "name": "potential-lamp-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bpander/potential-lamp-be.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bpander/potential-lamp-be/issues"
+  },
+  "homepage": "https://github.com/bpander/potential-lamp-be#readme",
+  "dependencies": {
+    "apollo-server": "^3.3.0",
+    "graphql": "^15.5.3"
+  }
+}
